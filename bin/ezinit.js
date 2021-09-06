@@ -23,24 +23,24 @@ program
   .description('initialize git project to github')
   .option('-b, --browse', 'open browser', false)
   .action((name, description) => {
-    console.log(chalk.green('start') + " progress...");
+    console.log(chalk.green('start') + ' progress...');
     execSync('git init');
     execSync(`echo "# ${name}" > README.md`);
     execSync('git add README.md');
     execSync('git commit -m "first commit"', {
-      timeout: 10000
+      timeout: 10000,
     });
-    execSync(`gh repo create "${name}" -y -d "${description}" --public`, {
-      timeout: 30000
+    execSync(`glab repo create "${name}" -d "${description}" --private`, {
+      timeout: 30000,
     });
     execSync('git push -u origin master');
-    console.log(chalk.green("complete!"))
+    console.log(chalk.green('complete!'));
   })
   .parse(process.argv);
 
 if (program.opts().browse) {
   console.log(program.opts().browse);
-  execSync('gh browse');
+  execSync('glab repo view');
 }
 
 program.command('*', { hidden: true }).action(() => {
